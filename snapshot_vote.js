@@ -7,40 +7,6 @@ const axios = require("axios")
 
 const provider = new ethers.providers.JsonRpcProvider(utils.MATIC_RPC)
 
-function get_keys() {
-  let contents = fs.readFileSync('../../eth/.syek').toString()
-  //console.log(contents)
-
-  let keys = []
-  for (let line of contents.split('\n')) {
-    let key = line.split(':')[0]
-    let alias = line.split(':')[1]
-    
-    keys.push({
-      key,
-      alias
-    })
-  }
-
-  return keys
-}
-
-function get_private_key(alias, arr) {
-  let keys = get_keys()
-  for (key of keys) {
-    
-    if (alias == key.alias) {
-      let pri_key = key.key
-      if (pri_key.startsWith('#')) pri_key = pri_key.substring(1)
-      if (pri_key.startsWith('S')||pri_key.startsWith('M')) pri_key = pri_key.substring(1)
-      else pri_key = utils.decode(pri_key.substring(1), arr)
-
-      return pri_key
-    }
-  }
-
-  return undefined
-}
 
 //
 async function send_vote_request(data, alias) {
